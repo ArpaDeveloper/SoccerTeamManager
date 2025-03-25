@@ -1,21 +1,26 @@
-package com.example.soccerteammanager;
+package com.example.soccerteammanager.objects;
 
-public class Player {
+public class Player implements SoccerEntity {
 
     private String name;
     private String position;
     private String team;
 
     //Constructor
-    Player(String name, String position, String team){
+    public Player(String name, String position, String team){
         this.name = name;
         this.position = position;
         this.team = team;
     }
 
     //Getters
+    @Override
     public String getName(){
         return name;
+    }
+    @Override
+    public String getID() {
+        return "Player";
     }
     public String getPosition(){
         return position;

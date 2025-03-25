@@ -1,4 +1,4 @@
-package com.example.soccerteammanager;
+package com.example.soccerteammanager.objects;
 
 public interface SoccerEntity {
 

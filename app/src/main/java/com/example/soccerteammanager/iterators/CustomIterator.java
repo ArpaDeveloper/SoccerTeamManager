@@ -1,4 +1,4 @@
-package com.example.soccerteammanager;
+package com.example.soccerteammanager.iterators;
 
 public interface CustomIterator<T> {
 

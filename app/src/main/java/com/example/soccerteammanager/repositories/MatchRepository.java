@@ -1,9 +1,11 @@
-package com.example.soccerteammanager;
+package com.example.soccerteammanager.repositories;
+
+import com.example.soccerteammanager.objects.Match;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class MatchRepository extends Repository<Match>{
+public class MatchRepository extends Repository<Match> {
 
     public List<Match> filterByTeam(String team){
         Predicate<Match> byTeam = match -> match.getHomeTeam().equals(team) || match.getAwayTeam().equals(team);

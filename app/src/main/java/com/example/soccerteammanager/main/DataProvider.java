@@ -1,4 +1,8 @@
-package com.example.soccerteammanager;
+package com.example.soccerteammanager.main;
+
+import com.example.soccerteammanager.objects.Match;
+import com.example.soccerteammanager.objects.Player;
+import com.example.soccerteammanager.objects.Team;
 
 import java.util.List;
 import java.util.ArrayList;
