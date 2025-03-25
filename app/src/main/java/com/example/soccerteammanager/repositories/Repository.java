@@ -13,7 +13,6 @@ public class Repository<T> {
         this.items = new ArrayList<>();
     }
 
-    //Constructor to
     public Repository(List<T> items) {
         this.items = items;
     }
