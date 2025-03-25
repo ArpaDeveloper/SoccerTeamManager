@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SoccerTeamManager</string>
+    <string name="matches">Matches</string>
+    <string name="players">Players</string>
+    <string name="teams">Teams</string>
+    <string name="soccer_manager">Soccer Manager</string>
+    <string name="basic">empty</string>
 </resources>
