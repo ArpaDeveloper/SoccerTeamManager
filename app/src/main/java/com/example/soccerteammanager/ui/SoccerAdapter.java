@@ -1,6 +1,5 @@
 package com.example.soccerteammanager.ui;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.soccerteammanager.R;
 import com.example.soccerteammanager.objects.SoccerEntity;
 import com.example.soccerteammanager.objects.Player;
-import com.example.soccerteammanager.objects.Team;
 import com.example.soccerteammanager.objects.Match;
+import com.example.soccerteammanager.objects.Team;
+import com.example.soccerteammanager.R;
+
 
 import java.util.List;
 
-public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.SoccerViewHolder> {
+public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.ViewHolder> {
 
     private List<SoccerEntity> items;
 
@@ -27,55 +27,45 @@ public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.SoccerView
 
     @NonNull
     @Override
-    public SoccerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
-        return new SoccerViewHolder(itemView);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_layout, parent, false);  // Use item layout for individual items
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SoccerViewHolder holder, int position) {
-        SoccerEntity item = items.get(position);
-
-        // Check the type of item and bind accordingly
-        if (item instanceof Player) {
-            Player player = (Player) item;
-            holder.TextView1.setText(player.getName());
-            holder.TextView2.setText(player.getTeam());
-            holder.TextView3.setText(player.getPosition());
-        } else if (item instanceof Team) {
-            Team team = (Team) item;
-            holder.TextView1.setText(team.getName());
-            holder.TextView2.setText(team.getCountry());
-            holder.TextView3.setText(team.getLeague());
-        } else if (item instanceof Match) {
-            Match match = (Match) item;
-            holder.TextView1.setText(match.getID());
-            holder.TextView2.setText(match.getName());
-            holder.TextView3.setText(match.getScore());
-        }
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        SoccerEntity entity = items.get(position);
+        holder.TextView1.setText(entity.getName());  // Bind the name (Player, Team, or Match)
+        holder.TextView2.setText(entity instanceof Player ? ((Player) entity).getTeam() :
+                entity instanceof Match ? ((Match) entity).getID() :
+                        ((Team) entity).getCountry());
+        holder.TextView3.setText(entity instanceof Player ? ((Player) entity).getPosition() :
+                entity instanceof Match ? ((Match) entity).getScore() :
+                        ((Team) entity).getLeague());
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items != null ? items.size() : 0;
     }
 
-    //Method to update data
-    public void updateData(List<SoccerEntity> newItems) {
-        this.items = newItems;
-        notifyDataSetChanged();
+    public void updateData(List<SoccerEntity> items) {
+        this.items = items;
+        notifyDataSetChanged();  // Notify that data has changed
     }
 
-    public static class SoccerViewHolder extends RecyclerView.ViewHolder {
-        public TextView TextView1;
-        public TextView TextView2;
-        public TextView TextView3;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public SoccerViewHolder(View view) {
-            super(view);
-            TextView1 = view.findViewById(R.id.TextView1);
-            TextView2 = view.findViewById(R.id.TextView2);
-            TextView3 = view.findViewById(R.id.TextView3);
+        TextView TextView1;
+        TextView TextView2;
+        TextView TextView3;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            TextView1 = itemView.findViewById(R.id.TextView1);
+            TextView2 = itemView.findViewById(R.id.TextView2);
+            TextView3 = itemView.findViewById(R.id.TextView3);
         }
     }
 }
