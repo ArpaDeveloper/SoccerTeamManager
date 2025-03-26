@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +23,10 @@ import com.example.soccerteammanager.repositories.PlayerRepository;
 import com.example.soccerteammanager.repositories.TeamRepository;
 import com.example.soccerteammanager.ui.SoccerAdapter;
 import com.google.android.material.tabs.TabLayout;
+import androidx.cardview.widget.CardView;
+
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        CardView cardView = findViewById(R.id.cardView);
 
         // Initialize the adapter with an empty list initially
 
@@ -59,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         dataProvider.createSampleMatches();
 
         loadAllData();
+        disableCardView(cardView);
+
 
         // Add TabSelectedListener to handle tab switches
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -67,15 +75,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         loadAllData();
+                        disableCardView(cardView);
                         break;
                     case 1:
-                        loadTeams();  // Load Players when "Players" tab is selected
+                        loadTeams();
+                        enableCardView(cardView);
                         break;
                     case 2:
-                        loadPlayers();  // Load Teams when "Teams" tab is selected
+                        loadPlayers();
+                        enableCardView(cardView);
                         break;
                     case 3:
-                        loadMatches();  // Load Matches when "Matches" tab is selected
+                        loadMatches();
+                        enableCardView(cardView);
                         break;
                 }
             }
@@ -124,4 +136,31 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Total items loaded: " + allItems.size()); // Debugging
         adapter.updateData(allItems); // Update RecyclerView with all data
     }
+
+    public void disableCardView(CardView cardView) {
+        // Disable the CardView
+        cardView.setEnabled(false);
+
+        // Get all the child views of the CardView and make buttons invisible or gone
+        for (int i = 0; i < cardView.getChildCount(); i++) {
+            View child = cardView.getChildAt(i);
+            if (child instanceof Button) {
+                child.setVisibility(View.GONE); // Or View.INVISIBLE if you want to keep layout space
+            }
+        }
+    }
+
+    public void enableCardView(CardView cardView) {
+        // Enable the CardView
+        cardView.setEnabled(true);
+
+        // Get all the child views of the CardView and make buttons visible again
+        for (int i = 0; i < cardView.getChildCount(); i++) {
+            View child = cardView.getChildAt(i);
+            if (child instanceof Button) {
+                child.setVisibility(View.VISIBLE); // Or View.INVISIBLE if you want to hide but keep space
+            }
+        }
+    }
+
 }
