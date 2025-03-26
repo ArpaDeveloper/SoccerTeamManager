@@ -9,9 +9,12 @@ import java.util.ArrayList;
 
 public class DataProvider {
 
+    private List<Player> players = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
+    private List<Match> matches = new ArrayList<>();
     // Example Teams Data
     List<Team> createSampleTeams() {
-        List<Team> teams = new ArrayList<>();
+        //List<Team> teams = new ArrayList<>();
         teams.add(new Team("FC Barcelona", "Spain", "La Liga"));
         teams.add(new Team("Manchester United", "England", "Premier League"));
         teams.add(new Team("Bayern Munich", "Germany", "Bundesliga"));
@@ -24,7 +27,7 @@ public class DataProvider {
     }
     // Example Players Data
     List<Player> createSamplePlayers() {
-        List<Player> players = new ArrayList<>();
+        //List<Player> players = new ArrayList<>();
         players.add(new Player("Lionel Messi", "Forward", "FC Barcelona"));
         players.add(new Player("Cristiano Ronaldo", "Forward", "Juventus"));
         players.add(new Player("Robert Lewandowski", "Forward", "Bayern Munich"));
@@ -42,7 +45,7 @@ public class DataProvider {
     }
     // Example Matches Data
     List<Match> createSampleMatches() {
-        List<Match> matches = new ArrayList<>();
+        //List<Match> matches = new ArrayList<>();
         matches.add(new Match("FC Barcelona", "Real Madrid", "2-1"));
         matches.add(new Match("Manchester United", "Liverpool", "0-3"));
         matches.add(new Match("Bayern Munich", "Borussia Dortmund", "4-2"));
@@ -53,4 +56,8 @@ public class DataProvider {
         matches.add(new Match("Liverpool", "Ajax Amsterdam", "1-0"));
         return matches;
     }
+
+    public List<Player> getPlayers() { return players; }
+    public List<Team> getTeams() { return teams; }
+    public List<Match> getMatches() { return matches; }
 }

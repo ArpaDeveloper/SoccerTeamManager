@@ -1,6 +1,7 @@
 package com.example.soccerteammanager.main;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.example.soccerteammanager.repositories.TeamRepository;
 import com.example.soccerteammanager.ui.SoccerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,16 +48,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize the adapter with an empty list initially
-        dataProvider = new DataProvider();
-        adapter = new SoccerAdapter(null);
+
+        adapter = new SoccerAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
         // Default content to display (e.g., Players)
+        dataProvider = new DataProvider();
         dataProvider.createSamplePlayers();
         dataProvider.createSampleTeams();
         dataProvider.createSampleMatches();
 
-        loadPlayers();
+        loadAllData();
 
         // Add TabSelectedListener to handle tab switches
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -63,12 +66,15 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        loadPlayers();  // Load Players when "Players" tab is selected
+                        loadAllData();
                         break;
                     case 1:
-                        loadTeams();  // Load Teams when "Teams" tab is selected
+                        loadTeams();  // Load Players when "Players" tab is selected
                         break;
                     case 2:
+                        loadPlayers();  // Load Teams when "Teams" tab is selected
+                        break;
+                    case 3:
                         loadMatches();  // Load Matches when "Matches" tab is selected
                         break;
                 }
@@ -84,21 +90,38 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to load players
     private void loadPlayers() {
-        PlayerRepository playerRepository = new PlayerRepository();
-        List<Player> players = playerRepository.getAll();  // Get all players from the repository
+        //PlayerRepository playerRepository = new PlayerRepository();
+        //List<Player> players = playerRepository.getAll();  // Get all players from the repository
+        List<Player> players = dataProvider.getPlayers();
+        Log.d("MainActivity", "Players loaded: " + players.size());
         adapter.updateData((List<SoccerEntity>) (List<?>) players); // Update adapter with player data
     }
 
     // Method to load teams
     private void loadTeams() {
-        List<Team> teamList = dataProvider.createSampleTeams();
-        adapter.updateData(teamList);
+       // TeamRepository teamRepository =  new TeamRepository();
+        //List<Team> teams = teamRepository.getAll();
+        List<Team> teams = dataProvider.getTeams();
+        Log.d("MainActivity", "Players loaded: " + teams.size());
+        adapter.updateData((List<SoccerEntity>) (List<?>) teams);
     }
 
     // Method to load matches
     private void loadMatches() {
-        MatchRepository matchRepository = new MatchRepository();
-        List<Match> matches = matchRepository.getAll();  // Get all matches from the repository
+        //MatchRepository matchRepository = new MatchRepository();
+        //List<Match> matches = matchRepository.getAll();  // Get all matches from the repository
+        List<Match> matches = dataProvider.getMatches();
+        Log.d("MainActivity", "Players loaded: " + matches.size());
         adapter.updateData((List<SoccerEntity>) (List<?>) matches);  // Update adapter with match data
+    }
+
+    private void loadAllData() {
+        List<SoccerEntity> allItems = new ArrayList<>();
+        allItems.addAll(dataProvider.getPlayers()); // Add players
+        allItems.addAll(dataProvider.getTeams());   // Add teams
+        allItems.addAll(dataProvider.getMatches()); // Add matches
+
+        Log.d("MainActivity", "Total items loaded: " + allItems.size()); // Debugging
+        adapter.updateData(allItems); // Update RecyclerView with all data
     }
 }

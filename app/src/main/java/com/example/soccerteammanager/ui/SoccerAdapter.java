@@ -1,5 +1,6 @@
 package com.example.soccerteammanager.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.ViewHolder
 
     public void updateData(List<SoccerEntity> items) {
         this.items = items;
+        Log.d("SoccerAdapter", "Updated with " + items.size() + " items"); // Debugging
         notifyDataSetChanged();  // Notify that data has changed
     }
 
