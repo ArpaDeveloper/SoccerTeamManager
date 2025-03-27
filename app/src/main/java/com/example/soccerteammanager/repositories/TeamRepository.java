@@ -17,7 +17,7 @@ public class TeamRepository extends Repository<Team> {
         //Use the filter method from the parent class
         return filter(byLeague);
     }
-
+    //Pain
     public List<Team> getAll() {
         return super.getAll();
     }
