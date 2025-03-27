@@ -52,7 +52,9 @@ public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.ViewHolder
     }
 
     public void updateData(List<SoccerEntity> items) {
-        this.items = items;
+        //this.items = items;
+        this.items.clear(); // Clear the old data
+        this.items.addAll(items);
         Log.d("SoccerAdapter", "Updated with " + items.size() + " items"); // Debugging
         notifyDataSetChanged();  // Notify that data has changed
     }

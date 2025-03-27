@@ -27,6 +27,7 @@ import androidx.cardview.widget.CardView;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     private SoccerAdapter adapter;
     private DataProvider dataProvider;
+    private String option1, option2, option3;
+    private int selectedTabIndex = 0;
+    private TeamRepository teamRepo;
+    private PlayerRepository playerRepo;
+    private MatchRepository matchRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         CardView cardView = findViewById(R.id.cardView);
+
+        Button leftButton = findViewById(R.id.button4);
+        Button middleButton = findViewById(R.id.button5);
+        Button rightButton = findViewById(R.id.button6);
+
+        TeamRepository teamRepo = new TeamRepository();
+        PlayerRepository playerRepo = new PlayerRepository();
+        MatchRepository matchRepo = new MatchRepository();
 
         // Initialize the adapter with an empty list initially
 
@@ -72,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
+                selectedTabIndex = tab.getPosition();
+                switch (selectedTabIndex) {
                     case 0:
                         loadAllData();
                         disableCardView(cardView);
@@ -80,14 +95,26 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         loadTeams();
                         enableCardView(cardView);
+                        option1 = "Serie A";
+                        option2 = "Ligue 1";
+                        option3 = "La Liga";
+                        updateButtonTexts(option1, option2, option3);
                         break;
                     case 2:
                         loadPlayers();
                         enableCardView(cardView);
+                        option1 = "Juventus";
+                        option2 = "PSG";
+                        option3 = "Liverpool";
+                        updateButtonTexts(option1, option2, option3);
                         break;
                     case 3:
                         loadMatches();
                         enableCardView(cardView);
+                        option1 = "Ajax";
+                        option2 = "PSG";
+                        option3 = "AC Milan";
+                        updateButtonTexts(option1, option2, option3);
                         break;
                 }
             }
@@ -98,12 +125,71 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
+
+        //Left Button options
+        leftButton.setOnClickListener(view -> {
+            if (selectedTabIndex == 1) {
+                List<Team> filteredTeams = teamRepo.filterByLeague(option1);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
+            }
+            else if(selectedTabIndex == 2){
+                List<Player> filteredPlayers = playerRepo.filterByTeam(option1);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredPlayers);
+            }
+            else if(selectedTabIndex == 3){
+                List<Match> filteredMatches = matchRepo.filterByTeam(option1);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+            }
+        });
+
+        //Middle Button options
+        middleButton.setOnClickListener(view -> {
+            if (selectedTabIndex == 1) {
+                List<Team> filteredTeams = teamRepo.filterByLeague(option2);
+                Toast.makeText(getApplicationContext(), "Filtered Teams: " + filteredTeams.size(), Toast.LENGTH_LONG).show();
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
+            }
+            else if(selectedTabIndex == 2){
+                List<Player> filteredPlayers = playerRepo.filterByTeam(option2);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredPlayers);
+            }
+            else if(selectedTabIndex == 3){
+                List<Match> filteredMatches = matchRepo.filterByTeam(option2);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+            }
+        });
+
+        //Right Button options
+        rightButton.setOnClickListener(view -> {
+            if (selectedTabIndex == 1) {
+                List<Team> filteredTeams = teamRepo.filterByLeague(option3);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
+            }
+            else if(selectedTabIndex == 2){
+                List<Player> filteredPlayers = playerRepo.filterByTeam(option3);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredPlayers);
+            }
+            else if(selectedTabIndex == 3){
+                List<Match> filteredMatches = matchRepo.filterByTeam(option3);
+                adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+            }
+        });
+
+
+
     }
 
+    private void updateButtonTexts(String option1, String option2, String option3){
+        Button leftButton = findViewById(R.id.button4);
+        Button middleButton = findViewById(R.id.button5);
+        Button rightButton = findViewById(R.id.button6);
+
+        leftButton.setText(option1);
+        middleButton.setText(option2);
+        rightButton.setText(option3);
+    }
     // Method to load players
     private void loadPlayers() {
-        //PlayerRepository playerRepository = new PlayerRepository();
-        //List<Player> players = playerRepository.getAll();  // Get all players from the repository
         List<Player> players = dataProvider.getPlayers();
         Log.d("MainActivity", "Players loaded: " + players.size());
         adapter.updateData((List<SoccerEntity>) (List<?>) players); // Update adapter with player data
@@ -111,8 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to load teams
     private void loadTeams() {
-       // TeamRepository teamRepository =  new TeamRepository();
-        //List<Team> teams = teamRepository.getAll();
         List<Team> teams = dataProvider.getTeams();
         Log.d("MainActivity", "Players loaded: " + teams.size());
         adapter.updateData((List<SoccerEntity>) (List<?>) teams);
@@ -120,8 +204,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Method to load matches
     private void loadMatches() {
-        //MatchRepository matchRepository = new MatchRepository();
-        //List<Match> matches = matchRepository.getAll();  // Get all matches from the repository
         List<Match> matches = dataProvider.getMatches();
         Log.d("MainActivity", "Players loaded: " + matches.size());
         adapter.updateData((List<SoccerEntity>) (List<?>) matches);  // Update adapter with match data
@@ -140,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
     public void disableCardView(CardView cardView) {
         // Disable the CardView
         cardView.setEnabled(false);
+        cardView.setVisibility(View.GONE);
 
         // Get all the child views of the CardView and make buttons invisible or gone
         for (int i = 0; i < cardView.getChildCount(); i++) {
@@ -153,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
     public void enableCardView(CardView cardView) {
         // Enable the CardView
         cardView.setEnabled(true);
+        cardView.setVisibility(View.VISIBLE);
 
         // Get all the child views of the CardView and make buttons visible again
         for (int i = 0; i < cardView.getChildCount(); i++) {
