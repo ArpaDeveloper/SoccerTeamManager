@@ -18,10 +18,10 @@ public class MatchRepository extends Repository<Match> {
 
         Predicate<Match> byTeam = match -> match.getHomeTeam().trim().equalsIgnoreCase(team.trim())
                 || match.getAwayTeam().trim().equalsIgnoreCase(team.trim());
-        ;
 
         return matchRepo.filter(byTeam);
     }
+
 
     public List<Match> getAll() {
         return super.getAll();

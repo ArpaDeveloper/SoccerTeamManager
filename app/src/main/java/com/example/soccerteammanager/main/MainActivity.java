@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new SoccerAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        SearchView searchView = findViewById(R.id.searchView);
+
 
         // Default content to display (e.g., Players)
         dataProvider = new DataProvider();
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadAllData();
         disableCardView(cardView);
+
 
 
         // Add TabSelectedListener to handle tab switches
@@ -171,6 +175,45 @@ public class MainActivity extends AppCompatActivity {
             else if(selectedTabIndex == 3){
                 List<Match> filteredMatches = matchRepo.filterByTeam(option3);
                 adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+            }
+        });
+
+        // Handle search query changes
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Optionally handle submit if you need it
+                if (selectedTabIndex == 1) {
+                    List<Team> filteredTeams = teamRepo.filterByAll(query);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
+                }
+                else if(selectedTabIndex == 2){
+                    List<Player> filteredPlayers = playerRepo.filterByAll(query);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredPlayers);
+                }
+                else if(selectedTabIndex == 3){
+                    List<Match> filteredMatches = matchRepo.filterByTeam(query);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Handle search text change and filter based on the selected tab
+                if (selectedTabIndex == 1) {
+                    List<Team> filteredTeams = teamRepo.filterByAll(newText);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
+                }
+                else if(selectedTabIndex == 2){
+                    List<Player> filteredPlayers = playerRepo.filterByAll(newText);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredPlayers);
+                }
+                else if(selectedTabIndex == 3){
+                    List<Match> filteredMatches = matchRepo.filterByTeam(newText);
+                    adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
+                }
+                return false;
             }
         });
 
