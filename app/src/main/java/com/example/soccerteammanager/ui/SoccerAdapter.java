@@ -1,6 +1,5 @@
 package com.example.soccerteammanager.ui;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,50 +14,58 @@ import com.example.soccerteammanager.objects.Match;
 import com.example.soccerteammanager.objects.Team;
 import com.example.soccerteammanager.R;
 
-
 import java.util.List;
 
+/**
+ * This adapter handles recyclerView (binding, updating and handling objects in it)
+ *
+ * @author Arpadev
+ */
 public class SoccerAdapter extends RecyclerView.Adapter<SoccerAdapter.ViewHolder> {
 
-    private List<SoccerEntity> items;
+    private final List<SoccerEntity> items;
 
+    //Constructor
     public SoccerAdapter(List<SoccerEntity> items) {
         this.items = items;
     }
 
+    //Method to inflate the item layout and create new ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_layout, parent, false);  // Use item layout for individual items
+                .inflate(R.layout.item_layout, parent, false);
         return new ViewHolder(view);
     }
 
+    //Bind data to given position
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SoccerEntity entity = items.get(position);
-        holder.TextView1.setText(entity.getName());  // Bind the name (Player, Team, or Match)
+        holder.TextView1.setText(entity.getName());
         holder.TextView2.setText(entity instanceof Player ? ((Player) entity).getTeam() :
-                entity instanceof Match ? ((Match) entity).getID() :
+                entity instanceof Match ? entity.getID() :
                         ((Team) entity).getCountry());
         holder.TextView3.setText(entity instanceof Player ? ((Player) entity).getPosition() :
                 entity instanceof Match ? ((Match) entity).getScore() :
                         ((Team) entity).getLeague());
     }
 
+    //Getter
     @Override
     public int getItemCount() {
         return items != null ? items.size() : 0;
     }
 
+    //Method to update data
     public void updateData(List<SoccerEntity> items) {
-        //this.items = items;
-        this.items.clear(); // Clear the old data
+        this.items.clear();
         this.items.addAll(items);
-        Log.d("SoccerAdapter", "Updated with " + items.size() + " items"); // Debugging
-        notifyDataSetChanged();  // Notify that data has changed
+        notifyDataSetChanged();
     }
 
+    //Method to initialize viewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView TextView1;

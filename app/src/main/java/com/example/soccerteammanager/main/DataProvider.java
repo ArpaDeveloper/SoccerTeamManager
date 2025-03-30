@@ -7,20 +7,27 @@ import com.example.soccerteammanager.objects.Team;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * This class provides all the data
+ *
+ * @author Arpadev
+ */
 public class DataProvider {
 
+    //Lists
     private List<Player> players;
     private List<Team> teams;
     private List<Match> matches;
-    // Example Teams Data
 
+    //Constructor
     public DataProvider() {
         teams = createSampleTeams();
         players = createSamplePlayers();
         matches = createSampleMatches();
     }
+
+    //Method to create sample teams
     List<Team> createSampleTeams() {
-        //List<Team> teams = new ArrayList<>();
         teams = new ArrayList<>();
         teams.add(new Team("FC Barcelona", "Spain", "La Liga"));
         teams.add(new Team("Manchester United", "England", "Premier League"));
@@ -33,10 +40,9 @@ public class DataProvider {
         teams.add(new Team("Flamengo", "Brazil", "Brasileirão"));
         return teams;
     }
-    // Example Players Data
+    //Method to create sample players
     List<Player> createSamplePlayers() {
         players = new ArrayList<>();
-        //List<Player> players = new ArrayList<>();
         players.add(new Player("Lionel Messi", "Forward", "FC Barcelona"));
         players.add(new Player("Cristiano Ronaldo", "Forward", "Juventus"));
         players.add(new Player("Robert Lewandowski", "Forward", "Bayern Munich"));
@@ -52,9 +58,8 @@ public class DataProvider {
         players.add(new Player("Phil Foden", "Forward", "Manchester City"));
         return players;
     }
-    // Example Matches Data
+    //Method to create sample matches
     List<Match> createSampleMatches() {
-        //List<Match> matches = new ArrayList<>();
         matches = new ArrayList<>();
         matches.add(new Match("FC Barcelona", "Real Madrid", "2-1"));
         matches.add(new Match("Manchester United", "Liverpool", "0-3"));
@@ -67,6 +72,7 @@ public class DataProvider {
         return matches;
     }
 
+    //Getters
     public List<Player> getPlayers() { return players; }
     public List<Team> getTeams() { return teams; }
     public List<Match> getMatches() { return matches; }

@@ -1,10 +1,16 @@
 package com.example.soccerteammanager.objects;
 
+/**
+ * This class defines object Match
+ *
+ * @author Arpadev
+ */
 public class Match implements SoccerEntity {
 
-    private String homeTeam;
-    private String awayTeam;
-    private String score;
+    //Variables
+    private final String homeTeam;
+    private final String awayTeam;
+    private final String score;
 
     //Constructor
     public Match(String homeTeam, String awayTeam, String score){
@@ -31,6 +37,4 @@ public class Match implements SoccerEntity {
     public String getScore(){
         return score;
     }
-
-
 }

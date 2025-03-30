@@ -1,10 +1,16 @@
 package com.example.soccerteammanager.objects;
 
+/**
+ * This class defines object Team
+ *
+ * @author Arpadev
+ */
 public class Team implements SoccerEntity {
 
-    private String name;
-    private String country;
-    private String league;
+    //Variables
+    private final String name;
+    private final String country;
+    private final String league;
 
     //Constructor
     public Team(String name, String country, String league){
@@ -26,7 +32,6 @@ public class Team implements SoccerEntity {
         return country;
     }
     public String getLeague(){
-        return league != null ? league.trim() : "";
+        return league;
     }
-
 }

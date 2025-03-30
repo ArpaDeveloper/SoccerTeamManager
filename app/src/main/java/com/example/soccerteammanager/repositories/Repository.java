@@ -5,25 +5,31 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * This class has methods for filtering and retrieving objects
+ *
+ * @author Arpadev
+ */
 public class Repository<T> {
 
-    private List<T> items;
+    private final List<T> items;
 
+    //Default constructor
     public Repository() {
         this.items = new ArrayList<>();
     }
 
+    //Parameterized constructor
     public Repository(List<T> items) {
         this.items = items;
     }
 
+    //Getter
     public List<T> getAll(){
         return items;
     }
-    public void add(T item){
-        items.add(item);
-    }
 
+    //Filter method
     public List<T> filter(Predicate<T> predicate){
         return items.stream()
                 .filter(predicate)
