@@ -6,4 +6,7 @@
     <string name="soccer_manager">Soccer Manager</string>
     <string name="basic">empty</string>
     <string name="all">All</string>
+    <string name="Ite1">Iterator Demo</string>
+    <string name="For1">For Each</string>
+    <string name="For4">For All</string>
 </resources>

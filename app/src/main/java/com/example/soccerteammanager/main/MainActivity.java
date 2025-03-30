@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.soccerteammanager.R;
+import com.example.soccerteammanager.iterators.MatchIterator;
+import com.example.soccerteammanager.iterators.PlayerIterator;
+import com.example.soccerteammanager.iterators.TeamIterator;
 import com.example.soccerteammanager.objects.Match;
 import com.example.soccerteammanager.objects.Player;
 import com.example.soccerteammanager.objects.SoccerEntity;
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         Button leftButton = findViewById(R.id.button4);
         Button middleButton = findViewById(R.id.button5);
         Button rightButton = findViewById(R.id.button6);
+
+        Button allIteratorButton = findViewById(R.id.button2);
 
         TeamRepository teamRepo = new TeamRepository();
         PlayerRepository playerRepo = new PlayerRepository();
@@ -214,6 +219,36 @@ public class MainActivity extends AppCompatActivity {
                     adapter.updateData((List<SoccerEntity>) (List<?>) filteredMatches);
                 }
                 return false;
+            }
+        });
+
+        //Right Button options
+        allIteratorButton.setOnClickListener(view -> {
+            List<Player> players = dataProvider.getPlayers();
+            PlayerIterator playerIterator = new PlayerIterator(players);
+
+            // Iterate through the list of players and log each one
+            while (playerIterator.hasNext()) {
+                Player player = playerIterator.next();
+                Log.d("Iterator", "Player: " + player.getName() + ", Team: " + player.getTeam() + ", Position: " + player.getPosition());
+            }
+
+            List<Team> teams = dataProvider.getTeams();
+            TeamIterator teamIterator = new TeamIterator(teams);
+
+            // Iterate through the list of players and log each one
+            while (teamIterator.hasNext()) {
+                Team team = teamIterator.next();
+                Log.d("Iterator", "Team: " + team.getName() + ", League: " + team.getLeague() + ", Country: " + team.getCountry());
+            }
+
+            List<Match> matches = dataProvider.getMatches();
+            MatchIterator matchIterator = new MatchIterator(matches);
+
+            // Iterate through the list of players and log each one
+            while (matchIterator.hasNext()) {
+                Match match = matchIterator.next();
+                Log.d("Iterator", "Match: " + match.getHomeTeam() + " vs " +  match.getAwayTeam() + ", Score:" + match.getScore());
             }
         });
 

@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class PlayerIterator implements CustomIterator<Player>{
+
     private List<Player> players;
     private int index = 0;
 
+    public PlayerIterator(List<Player> players) {
+        this.players = players;
+    }
     @Override
     public boolean hasNext() {
         return index < players.size();
