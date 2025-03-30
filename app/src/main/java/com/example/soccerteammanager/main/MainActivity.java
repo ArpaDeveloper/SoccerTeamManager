@@ -104,15 +104,15 @@ public class MainActivity extends AppCompatActivity {
                         loadPlayers();
                         enableCardView(cardView);
                         option1 = "Juventus";
-                        option2 = "PSG";
+                        option2 = "Bayern Munich";
                         option3 = "Liverpool";
                         updateButtonTexts(option1, option2, option3);
                         break;
                     case 3:
                         loadMatches();
                         enableCardView(cardView);
-                        option1 = "Ajax";
-                        option2 = "PSG";
+                        option1 = "Ajax Amsterdam";
+                        option2 = "Juventus";
                         option3 = "AC Milan";
                         updateButtonTexts(option1, option2, option3);
                         break;
@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
         middleButton.setOnClickListener(view -> {
             if (selectedTabIndex == 1) {
                 List<Team> filteredTeams = teamRepo.filterByLeague(option2);
-                Toast.makeText(getApplicationContext(), "Filtered Teams: " + filteredTeams.size(), Toast.LENGTH_LONG).show();
                 adapter.updateData((List<SoccerEntity>) (List<?>) filteredTeams);
             }
             else if(selectedTabIndex == 2){

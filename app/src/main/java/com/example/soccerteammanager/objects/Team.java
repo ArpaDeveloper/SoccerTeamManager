@@ -26,7 +26,7 @@ public class Team implements SoccerEntity {
         return country;
     }
     public String getLeague(){
-        return league;
+        return league != null ? league.trim() : "";
     }
 
 }
