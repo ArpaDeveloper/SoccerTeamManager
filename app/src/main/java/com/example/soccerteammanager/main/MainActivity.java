@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides all the data
+ * This handles ui and other stuff
  * This project was made with the help of ChatGPT
  *
  * @author Arpadev
